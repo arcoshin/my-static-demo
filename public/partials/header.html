@@ -1,0 +1,56 @@
+<table id="header-table">
+    <tr>
+        <td><a class="link-text" href="/pages/main/main.html">Index</a></td>
+        <td><a class="link-text" href="/pages/ring/ring.html">Ring</a></td>
+        <td><a class="link-text" href="/pages/scroll/scroll.html">Scroll</a></td>
+        <td><a class="link-text" href="/pages/animation/animation.html">Animation</a></td>
+    </tr>
+</table>
+
+<style>
+    body {
+        margin: 0;
+        background: black;
+        color: wheat;
+        font-family: "Segoe UI", sans-serif;
+    }
+
+    #header-table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: #111; /* 深色背景 */
+    }
+
+    #header-table td {
+        padding: 16px 24px;
+        text-align: center;
+    }
+
+    .link-text {
+        color: wheat;
+        text-decoration: none;
+        font-size: 18px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        display: inline-block;
+        position: relative;
+    }
+
+    /* hover 時字體變亮，下面出現下劃線 */
+    .link-text:hover {
+        color: gold;
+    }
+    .link-text::after {
+        content: "";
+        position: absolute;
+        width: 0%;
+        height: 2px;
+        left: 0;
+        bottom: -4px;
+        background: gold;
+        transition: width 0.3s ease;
+    }
+    .link-text:hover::after {
+        width: 100%;
+    }
+</style>

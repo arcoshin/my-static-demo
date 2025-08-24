@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Glossy Ring</title>
+    <script src="../../js/header.js"></script>
+    <style>
+        :root {
+            --size: 240px; /* 圓的直徑 */
+            --thickness: 22px; /* 環的厚度 */
+            --speed: 2.8s; /* 光澤旋轉速度 */
+            --base1: #1b2735; /* 基底顏色深 */
+            --base2: #2e4057; /* 基底顏色淺 */
+            --glow: #8ec5ff; /* 外發光色 */
+        }
+
+        html, body {
+            height: 100%;
+            background: #000;
+            display: grid;
+            place-items: center;
+            margin: 0;
+            color: #fff;
+            font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans TC", sans-serif;
+        }
+
+        .ring {
+            position: relative;
+            width: var(--size);
+            height: var(--size);
+            border-radius: 50%;
+
+            /* 底層：做出一個有深淺的金屬環 */
+            background: radial-gradient(farthest-side,
+            transparent calc(100% - var(--thickness)),
+            #0008 calc(100% - var(--thickness) + 1px) 100%),
+            conic-gradient(from 110deg, var(--base1), var(--base2), var(--base1));
+
+            /* 一點內/外發光，讓質感更好 */
+            box-shadow: inset 0 0 20px rgba(255, 255, 255, .08),
+            0 0 30px 8px color-mix(in oklab, var(--glow) 40%, transparent);
+
+            /* 讓 ::before 的光澤只顯示在環的厚度範圍 */
+            -webkit-mask: radial-gradient(farthest-side,
+            transparent calc(100% - var(--thickness)),
+            #000 calc(100% - var(--thickness) + 1px));
+            mask: radial-gradient(farthest-side,
+            transparent calc(100% - var(--thickness)),
+            #000 calc(100% - var(--thickness) + 1px));
+        }
+
+        /* 旋轉的光澤 */
+        .ring::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+
+            /* 一個「扇形」高光，搭配些微柔化 */
+            background: conic-gradient(from 0deg,
+            transparent 0 72deg,
+            rgba(255, 255, 255, .95) 92deg,
+            transparent 112deg);
+            filter: blur(0.6px);
+            mix-blend-mode: screen;
+
+            animation: spin var(--speed) linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* 無障礙：若使用者偏好減少動效，停掉動畫 */
+        @media (prefers-reduced-motion: reduce) {
+            .ring::before {
+                animation: none;
+            }
+        }
+
+        /* 小提示文字 */
+        .hint {
+            margin-top: 16px;
+            opacity: .7;
+            font-size: 14px
+        }
+    </style>
+</head>
+<body>
+<div id="header"></div>
+<br>
+<br>
+<br>
+<div class="ring" title="Glossy Ring"></div>
+<div class="hint">調整 :root 的 --size / --thickness / --speed 可改大小與速度</div>
+</body>
+</html>

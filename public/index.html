@@ -2,9 +2,70 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>my-static-demo</title>
+    <style>
+        body {
+            background-color: black;
+            color: wheat;
+            font-family: "Segoe UI", sans-serif;
+        }
+        .container {
+            text-align: center;
+            margin: 250px auto;
+        }
+
+        #btn-enter {
+            color: wheat;
+            font-size: 25px;
+            font-weight: bold;
+            padding: 5px 15px;
+            background: transparent;/*背景透明*/
+            border: 2px solid wheat;
+            border-radius: 50px;
+            cursor: pointer;/*當滑鼠移到這個元素上時，游標會變成「手指頭」的樣式。*/
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s linear;/*元素屬性值發生變化時，用動畫「平滑過渡」*/
+            /*
+                all → 代表「套用到所有可動畫的屬性」（例如背景顏色、文字顏色、邊框、陰影、大小、透明度…）。
+                0.3s → 動畫持續時間 = 0.3 秒。
+                ease → 動畫曲線（timing function) ---
+                    ease：先快後慢（最常用，看起來自然）
+                    linear：等速
+                    ease-in：慢開始快結束
+                    ease-out：快開始慢結束
+                    ease-in-out：慢→快→慢
+            */
+        }
+
+        #btn-enter:hover {
+            color: black;
+            background: wheat;
+            box-shadow: 0 0 15px rgba(245, 222, 179, 0.7); /*X位移 Y位移 模糊程度 顏色;*/
+            /*
+                0 0 → 陰影在 X 軸與 Y 軸上都不偏移 → 陰影環繞在四周
+                15px → 模糊半徑（越大越擴散、越柔和）
+                rgba(245, 222, 179, 0.7) → 顏色（這裡是 wheat 的 RGBA，透明度 0.7）
+            */
+            transform: scale(1.1);
+            /*
+                transform → 用來做元素的 2D/3D 轉換（平移、縮放、旋轉…）
+                scale(1.05) → 把元素放大到 原本的 1.05 倍（= 放大 5%）
+             */
+        }
+
+        /* 點擊瞬間效果 */
+        #btn-enter:active {
+            transform: scale(0.95);
+            box-shadow: 0 0 8px rgba(245, 222, 179, 0.7);
+        }
+    </style>
 </head>
 <body>
-<h1>Hello Firebase, Hello Peipei</h1>
+<div class="container">
+    <h1>Hello!</h1>
+    <h1>紀錄一些不錯的樣式</h1>
+    <button id="btn-enter" onclick="location.href='/pages/main/main.html'">進入</button>
+</div>
 </body>
 </html>

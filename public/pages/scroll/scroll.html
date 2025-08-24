@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Scroll</title>
+    <script src="../common/header.js"></script>
+    <style>
+        :root {
+            --collapsed: 260px;
+            --paper-bg: #f5ecd7;
+            --paper-ink: #2d2a26;
+            --radius: 12px;
+        }
+
+        html, body {
+            margin: 0;
+            background: #0b0b0b;
+            color: #eee;
+            font-family: system-ui, "Noto Sans TC", sans-serif;
+        }
+
+        .wrap {
+            max-width: 780px;
+            margin: 32px auto;
+            padding: 0 16px;
+        }
+
+        .scroll-consent {
+            --shadow: 0 10px 30px rgba(0, 0, 0, .25);
+            margin: 20px 0 32px;
+        }
+
+        .sc-head {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 4px 2px 10px;
+        }
+
+        /* 新增：切換按鈕樣式 */
+        .sc-toggle {
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: 1px solid #ffffff24;
+            background: #161515e6;
+            color: #fff;
+            cursor: pointer;
+            backdrop-filter: blur(4px);
+        }
+
+        .sc-viewport {
+            position: relative;
+            overflow: hidden;
+            max-height: 0;
+            transition: max-height .28s ease;
+        }
+
+        .scroll-consent.is-open .sc-viewport {
+            overflow: auto;
+            max-height: var(--collapsed);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+
+        .scroll-consent.is-full .sc-viewport {
+            max-height: min(72vh, 1400px);
+        }
+
+        .sc-paper {
+            background: linear-gradient(#00000012, transparent 24px) top/100% 24px no-repeat,
+            linear-gradient(180deg, #f8f1de, var(--paper-bg));
+            color: var(--paper-ink);
+            padding: 28px 22px 56px;
+            position: relative;
+        }
+
+        .sc-paper::before, .sc-paper::after {
+            content: "";
+            position: sticky;
+            left: 0;
+            right: 0;
+            display: block;
+            height: 14px;
+            z-index: 1;
+            background: radial-gradient(10px 10px at 10px 50%, #0003, transparent 60%) left/24px 100% no-repeat,
+            radial-gradient(10px 10px at calc(100% - 10px) 50%, #0003, transparent 60%) right/24px 100% no-repeat,
+            linear-gradient(90deg, #845a2a, #caa15e 50%, #845a2a);
+        }
+
+        .sc-paper::before {
+            top: 0;
+        }
+
+        .sc-paper::after {
+            bottom: 0;
+        }
+
+        .sc-expand {
+            position: sticky;
+            bottom: 10px;
+            margin: 12px auto 0;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #161515e6;
+            color: #fff;
+            border: 1px solid #ffffff24;
+            backdrop-filter: blur(4px);
+            padding: 10px 14px;
+            border-radius: 999px;
+            cursor: pointer;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, .35);
+            z-index: 2;
+        }
+
+        .scroll-consent.is-full.at-bottom .sc-expand {
+            display: none;
+        }
+
+        .sc-foot {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 12px 2px 0;
+            user-select: none;
+        }
+
+        .sc-foot input[disabled] {
+            opacity: .45;
+            cursor: not-allowed;
+        }
+
+        .content-title {
+            margin: 16px 0 12px;
+            color: #7a6229;
+        }
+    </style>
+</head>
+<body>
+<div id="header"></div>
+<div class="wrap">
+
+    <section class="scroll-consent" data-collapsed="320">
+        <div class="sc-head">
+            <h1>某段必須閱讀的內容</h1>
+        </div>
+
+        <!-- 改成按鈕 -->
+        <div class="sc-head">
+            <button class="sc-toggle" type="button" aria-expanded="false" aria-controls="law-1">展開到最後</button>
+        </div>
+
+        <div class="sc-viewport" id="law-1" role="region" aria-label="條文卷軸" tabindex="0">
+            <article class="sc-paper">
+                <h3 class="content-title">第 1 條（...）</h3>
+                <p>...</p>
+                <h3 class="content-title">第 2 條（...）</h3>
+                <p>...</p>
+                <h3 class="content-title">第 3 條（...）</h3>
+                <p>...</p>
+                <h3 class="content-title">第 4 條（...）</h3>
+                <p>...</p>
+                <h3 class="content-title">第 5 條（...）</h3>
+                <p>...</p>
+                <h3 class="content-title">第 6 條（...）</h3>
+                <p>...</p>
+                <h3 class="content-title">第 7 條（...）</h3>
+                <p>...</p>
+                <h3 class="content-title">第 8 條（...）</h3>
+                <p>...</p>
+                <h3 class="content-title">第 9 條（...）</h3>
+                <p>...</p>
+                <h3 class="content-title">第 10 條（...）</h3>
+                <p>...</p>
+
+                <button class="sc-expand" type="button" aria-label="展開看全部並捲到最底">展開看全部 ⤓</button>
+            </article>
+        </div>
+
+        <div class="sc-foot">
+            <input id="agree-1" class="sc-agree" type="checkbox" disabled/>
+            <label for="agree-1">我已經閱讀</label>
+        </div>
+    </section>
+
+</div>
+
+<script>
+    (function () {
+        function setup(root) {
+            const toggleBtn = root.querySelector('.sc-toggle');
+            const viewport = root.querySelector('.sc-viewport');
+            const expandBtn = root.querySelector('.sc-expand');
+            const agree = root.querySelector('.sc-agree');
+
+            const collapsed = Number(root.dataset.collapsed || 0);
+            if (collapsed > 0) root.style.setProperty('--collapsed', collapsed + 'px');
+
+            const atBottom = () => {
+                const t = viewport.scrollTop, h = viewport.clientHeight, s = viewport.scrollHeight;
+                return t + h >= s - 2;
+            };
+
+            function openPanel() {
+                root.classList.add('is-open');
+                toggleBtn.setAttribute('aria-expanded', 'true');
+                toggleBtn.textContent = '收合詳細內容';
+                agree.disabled = true;                // 展開時先鎖住
+                root.classList.remove('is-full', 'at-bottom');
+                requestAnimationFrame(() => viewport.focus({preventScroll: true}));
+            }
+
+            function closePanel({resetAgree = true} = {}) {
+                root.classList.remove('is-open', 'is-full', 'at-bottom');
+                toggleBtn.setAttribute('aria-expanded', 'false');
+                toggleBtn.textContent = '閱讀詳細內容';
+                viewport.scrollTop = 0;
+                if (resetAgree) {
+                    agree.checked = false;
+                    agree.disabled = true;
+                }
+            }
+
+            function toggleOpen() {
+                root.classList.contains('is-open') ? closePanel() : openPanel();
+            }
+
+            function onScroll() {
+                const bottom = atBottom();
+                root.classList.toggle('at-bottom', bottom);
+                if (bottom) agree.disabled = false;
+            }
+
+            function expandAll() {
+                root.classList.add('is-full');
+                requestAnimationFrame(() => {
+                    viewport.scrollTo({top: viewport.scrollHeight, behavior: 'smooth'});
+                });
+            }
+
+            // （可選）勾選已閱讀後自動收合；若不需要，刪掉這個監聽
+            function onAgreeChange() {
+                if (agree.checked) closePanel({resetAgree: false});
+            }
+
+            toggleBtn.addEventListener('click', toggleOpen);
+            viewport.addEventListener('scroll', onScroll, {passive: true});
+            expandBtn.addEventListener('click', expandAll);
+            agree.addEventListener('change', onAgreeChange);
+
+            closePanel(); // 初始關閉
+        }
+
+        document.querySelectorAll('.scroll-consent').forEach(setup);
+    })();
+</script>
+</body>
+</html>
