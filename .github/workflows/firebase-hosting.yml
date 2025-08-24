@@ -1,0 +1,15 @@
+name: Deploy to Firebase Hosting
+on:
+  push:
+    branches: [ master ]   # 或 main，依你的分支
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+      - run: npm i -g firebase-tools
+      # 若是純靜態，沒有 build 就可以省略下一行
+      # - run: npm ci && npm run build
+      - run: firebase deploy --only hosting --project my-static-demo --token ${{ secrets.FIREBASE_TOKEN }}
