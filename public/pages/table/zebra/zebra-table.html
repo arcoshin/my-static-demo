@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Table Example</title>
+    <style>
+        body {
+            background-color: #000000;
+            color: white;
+            max-width: 1020px;
+            margin: 48px auto;
+            padding: 20px 20px 20px 20px;
+            font-family: 'Noto Sans TC', sans-serif;
+        }
+
+        .content-box {
+            position: relative;
+            max-width: 905px;
+            margin: 48px auto;
+            padding: 20px 20px 20px 20px;
+            background: rgba(24, 24, 28, 0.98);
+            border-radius: 32px;
+            box-shadow: 0 8px 40px 0 rgba(0, 0, 0, 0.26), 0 0 0 1px #333;
+            border: 1px solid #232323;
+        }
+
+        .status-btn-text-approved {
+            color: #9ef7b3;
+        }
+
+        .status-btn-text-apply {
+            color: #4facfe;
+        }
+
+        .status-btn-text-info {
+            color: #ffb3b3;
+        }
+
+        .status-btn-text-disabled {
+            color: #808080;
+        }
+
+        .status-btn-pill {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 999px;
+            font-weight: 700;
+            letter-spacing: .5px;
+            border: 1.6px solid #ffe477aa;
+            background: rgba(30, 30, 35, .85);
+            cursor: pointer;
+            accent-color: red;
+        }
+
+        .status-btn-pill:hover {
+            background: rgba(255, 228, 119, 0.25);
+        }
+
+        .table-main {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            font-size: 1rem;
+            color: #f3f3f3;
+            background: repeating-linear-gradient(135deg, #232323 0 7px, #2a2a31 7px 14px);
+            border: 2px solid #ffe47788; /* 金色系邊框 */
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .table-main thead th + th {
+            border-left: 1px solid rgba(255, 228, 119, 0.28);
+        }
+
+        /* 表身 */
+        .table-main tbody td {
+            padding: 12px 16px;
+            border-top: 1px solid rgba(255, 228, 119, 0.16);
+            border-right: 1px solid rgba(255, 228, 119, 0.10);
+            vertical-align: middle;
+        }
+
+        /* 背景斑馬紋 */
+        .table-main tbody tr:nth-child(odd) td {
+            background: linear-gradient(0deg, rgba(255, 228, 119, 0.03), rgba(255, 228, 119, 0.03));
+        }
+
+        /* 滑鼠滑過高亮 */
+        .table-main tbody tr:hover td {
+            background: rgba(255, 67, 67, 0.08);
+            box-shadow: inset 0 0 0 9999px rgba(255, 67, 67, 0.03);
+        }
+
+        /* --- 深紅色表頭 --- */
+        .table-main thead th {
+            position: relative;
+            text-align: center;
+            padding: 14px 16px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            color: #fff;
+            background: #8b1e1e;
+            border-bottom: 2px solid #ff4343;
+            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+        }
+
+
+    </style>
+</head>
+<body>
+
+<div class="content-box">
+    <h2>Table Title</h2>
+    <table class="table-main">
+        <thead>
+            <tr>
+                <th>Column Title</th>
+                <th>Column Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    Column Title-1
+                </td>
+                <td><span class="status-btn-text-approved">Status-text</span></td>
+            </tr>
+            <tr>
+                <td>
+                    Column Title-2
+                </td>
+                <td>
+                    <label class="status-btn-pill status-btn-text-apply">
+                        <input type="checkbox" value="Column Title-2">Status-btn
+                    </label>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Column Title-3
+                </td>
+                <td>
+                    <label class="status-btn-pill status-btn-text-info">
+                        <input type="checkbox" value="Column Title-3">Status-btn
+                    </label>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Column Title-4
+                </td>
+                <td>
+                    <label class="status-btn-pill status-btn-text-disabled">
+                        <input type="checkbox" value="Column Title-4">Status-btn
+                    </label>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
